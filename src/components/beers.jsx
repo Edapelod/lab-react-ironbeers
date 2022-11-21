@@ -1,9 +1,26 @@
-function beer() {
-  return (
-    <div>
-      <h1>Beer</h1>
-    </div>
+import { useEffect, useState } from "react";
+
+function Beer() {
+  const [beers, setBeers] = useState([]);
+  const fetchBeers = async () => {
+    const response = await fetch("https://ih-beers-api2.herokuapp.com/beers");
+    const parsed = await response.json();
+
+    setBeers(parsed);
+  };
+
+  useEffect(() => {
+    fetchBeers(setBeers);
+  }, []);
+
+  return beers ? (
+    <>
+      <img src={beers.img} />
+      <h2>{beers.name}</h2>
+    </>
+  ) : (
+    <h1>Loading...</h1>
   );
 }
 
-export default beer;
+export default Beer;
